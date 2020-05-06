@@ -11,6 +11,12 @@ typedef struct {
 
 Tarea ** Interfaz(int *NTareas);
 
+void GuardarTareas(Tarea ** tareas, int NTareas);
+
+void ListarTareas(Tarea ** tareas, Tarea ** tareas_Realizadas, int NTareas);
+
+void ListarTareasRyP(Tarea ** tareas, Tarea ** tareas_Realizadas, int NTareas);
+
 
 
 int main(){
@@ -20,84 +26,23 @@ int main(){
 
     Tarea ** tareas;
 
-
-
     int NTareas;
 
     tareas = Interfaz(&NTareas);
-
-        int cont1 = 0; 
-    for (int i = 1; i <= NTareas; i++)  //Guardo todas las tareas en var tarea
-    {
-        *tareas = (Tarea *) malloc(sizeof(Tarea));
-        (*tareas)->TareaID = i;
-        printf("Escriba su tarea: ");
-        char * aux_descrip = (char *) malloc(sizeof(char) * 100);
-        scanf("%s", aux_descrip);
-        (*tareas)->Descripcion = (char *) malloc(sizeof(char) * strlen(aux_descrip));
-        strcpy((*tareas)->Descripcion, aux_descrip);
-        free(aux_descrip);
-        (*tareas)->Duracion = 10 + rand() % 91;
-        tareas++;
-        cont1++;
-    }
-
-    tareas -= cont1;
+    
+    GuardarTareas(tareas, NTareas);    //agregue esta funcion y dejo de funcionar
 
     Tarea ** tareas_Realizadas = (Tarea **) malloc(sizeof(Tarea *) * NTareas);
 
-            int cont2 = 0;
-    for (int i = 1; i <= NTareas; i++)  //Muevo las tareas realizadas de tarea a tareas_Realizadas
-    {
-        int c = rand() % 2; //asignador para decidir si la tarea se ralizo o no
+    ListarTareas(tareas, tareas_Realizadas, NTareas);
 
-        if (c == 1){
-            *tareas_Realizadas = (Tarea *) malloc(sizeof(Tarea));
-            (*tareas_Realizadas)->TareaID = (*tareas)->TareaID;
-            int tamanio = strlen(((*tareas)->Descripcion));
-            (*tareas_Realizadas)->Descripcion = (char *) malloc(sizeof(char) * tamanio);
-            strcpy((*tareas_Realizadas)->Descripcion, (*tareas)->Descripcion);
-            (*tareas_Realizadas)->Duracion = (*tareas)->Duracion;
-            tareas_Realizadas++;
-            *tareas = NULL;
-            cont2++;
-        }
-        tareas++;
-    }
-
-    tareas -= cont1;
-    tareas_Realizadas -= cont2;
-
-    printf("\n\nTareas Pendientes: \n");
-    for (int i = 1; i <= cont1; i++)
-    {
-        if (*tareas != NULL)
-        {
-            printf("ID: %d\n", (*tareas)->TareaID);
-            printf("Descripción: %s\n", (*tareas)->Descripcion);
-            printf("Duracion: %d\n", (*tareas)->Duracion);
-            printf("\n");
-        }
-        tareas++;
-    }
-
-    printf("------------------\n\n");
-    printf("Tareas Realizadas: \n");
-
-    for (int i = 1; i <= cont2; i++)
-    {
-        printf("ID: %d\n", (*tareas_Realizadas)->TareaID);
-        printf("Descripción: %s\n", (*tareas_Realizadas)->Descripcion);
-        printf("Duracion: %d\n", (*tareas_Realizadas)->Duracion);
-        printf("\n");
-        tareas_Realizadas++;
-    }
-
+    ListarTareasRyP(tareas, tareas_Realizadas, NTareas);
 
     scanf(" %c");
 
     return 0;
 }
+
 
 
 
@@ -110,3 +55,78 @@ Tarea ** Interfaz(int *NTareas){    //Realizo ademas las reserva
 
     return tarea;
 };
+
+void GuardarTareas(Tarea ** tareas, int NTareas){
+
+    for (int i = 1; i <= NTareas; i++)  //Guardo todas las tareas en var tarea
+    {
+        *tareas = (Tarea *) malloc(sizeof(Tarea));
+        (*tareas)->TareaID = i;
+        printf("Escriba su tarea: ");
+        char * aux_descrip = (char *) malloc(sizeof(char) * 100);
+        scanf("%s", aux_descrip);
+        (*tareas)->Descripcion = (char *) malloc(sizeof(char) * strlen(aux_descrip));
+        strcpy((*tareas)->Descripcion, aux_descrip);
+        free(aux_descrip);
+        (*tareas)->Duracion = 10 + rand() % 91;
+        tareas++;
+    }
+}
+
+void ListarTareas(Tarea ** tareas, Tarea ** tareas_Realizadas, int NTareas){
+
+    printf("\n\nTodas las Tareas: \n\n");
+    for (int i = 1; i <= NTareas; i++)  //Muevo las tareas realizadas
+    {
+        int c = rand() % 2;         //asignador para decidir si la tarea se ralizo o no
+
+        printf("ID: %d\n", (*tareas)->TareaID);
+        printf("Descripción: %s\n", (*tareas)->Descripcion);
+        printf("Duracion: %d\n", (*tareas)->Duracion);
+        printf("\n");
+
+        if (c == 1){                                                            //Muevo TareasR
+            *tareas_Realizadas = (Tarea *) malloc(sizeof(Tarea));
+            (*tareas_Realizadas)->TareaID = (*tareas)->TareaID;
+            int tamanio = strlen(((*tareas)->Descripcion));
+            (*tareas_Realizadas)->Descripcion = (char *) malloc(sizeof(char) * tamanio);
+            strcpy((*tareas_Realizadas)->Descripcion, (*tareas)->Descripcion);
+            (*tareas_Realizadas)->Duracion = (*tareas)->Duracion;
+            tareas_Realizadas++;
+            *tareas = NULL;
+        }
+        tareas++;
+    }
+}
+
+void ListarTareasRyP(Tarea ** tareas, Tarea ** tareas_Realizadas, int NTareas){
+    int TP = 0;
+
+    printf("\n------------------------------ \n");
+    printf("\n\nTareas Pendientes: \n");
+
+    for (int i = 1; i <= NTareas; i++)      //Tareas Pendientes
+    {
+        if (*tareas != NULL)
+        {
+            printf("ID: %d\n", (*tareas)->TareaID);
+            printf("Descripción: %s\n", (*tareas)->Descripcion);
+            printf("Duracion: %d\n", (*tareas)->Duracion);
+            printf("\n");
+            TP++;
+        }
+        tareas++;
+    }
+
+    printf("------------------\n\n");
+    printf("Tareas Realizadas: \n\n");
+
+    for (int i = 1; i <= NTareas-TP; i++)       //Tareas Realizadas
+    {
+        printf("ID: %d\n", (*tareas_Realizadas)->TareaID);
+        printf("Descripción: %s\n", (*tareas_Realizadas)->Descripcion);
+        printf("Duracion: %d\n", (*tareas_Realizadas)->Duracion);
+        printf("\n");
+        tareas_Realizadas++;
+    }
+}
