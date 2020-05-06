@@ -17,7 +17,7 @@ void ListarTareas(Tarea ** tareas, Tarea ** tareas_Realizadas, int NTareas);
 
 void ListarTareasRyP(Tarea ** tareas, Tarea ** tareas_Realizadas, int NTareas);
 
-
+Tarea * BuscarTareaID(Tarea ** tareas, Tarea ** tareas_Realizadas, int NTareas);
 
 int main(){
 
@@ -37,6 +37,22 @@ int main(){
     ListarTareas(tareas, tareas_Realizadas, NTareas);
 
     ListarTareasRyP(tareas, tareas_Realizadas, NTareas);
+
+    Tarea * tareaBuscID = (Tarea *)malloc(sizeof(Tarea));
+
+    tareaBuscID = BuscarTareaID(tareas, tareas_Realizadas, NTareas);
+
+    if (tareaBuscID == NULL)
+    {
+        printf("La tarea con ese ID no existe: ");
+    }else
+    {
+        printf("\n Tarea con id %d: \n", tareaBuscID->TareaID);
+        printf("ID: %d\n", tareaBuscID->TareaID);
+        printf("Descripcion: %s \n", tareaBuscID->Descripcion);
+        printf("Duracion: %d\n", tareaBuscID->Duracion);
+    }
+    
 
     scanf(" %c");
 
@@ -129,4 +145,37 @@ void ListarTareasRyP(Tarea ** tareas, Tarea ** tareas_Realizadas, int NTareas){
         printf("\n");
         tareas_Realizadas++;
     }
+}
+
+
+Tarea * BuscarTareaID(Tarea ** tareas, Tarea ** tareas_Realizadas, int NTareas){
+    int TP = 0;
+    int ID;
+
+    printf("\n\nIngrese el ID de la Tarea a Buscar: \n");
+    scanf("%d", &ID);
+
+    for (int i = 1; i <= NTareas; i++)
+    {
+        if (*tareas != NULL)
+        {
+            if ((*tareas)->TareaID == ID)
+            {
+                return *tareas;
+            }
+            TP++;
+        }
+        tareas++;
+    }
+    
+    for (int i = 1; i <= NTareas-TP; i++)
+    {
+        if ((*tareas_Realizadas)->TareaID == ID)
+        {
+            return *tareas_Realizadas;
+        }
+        tareas_Realizadas++;
+    }
+    
+    return NULL;
 }
