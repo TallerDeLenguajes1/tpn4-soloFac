@@ -19,6 +19,7 @@ void ListarTareasRyP(Tarea ** tareas, Tarea ** tareas_Realizadas, int NTareas);
 
 Tarea * BuscarTareaPalabra(Tarea ** tareas, Tarea ** tareas_Realizadas, int NTareas);
 
+
 int main(){
 
     time_t t;
@@ -71,6 +72,7 @@ Tarea ** Interfaz(int *NTareas){    //Realizo ademas las reserva
     return tarea;
 };
 
+
 void GuardarTareas(Tarea ** tareas, int NTareas){
 
     for (int i = 1; i <= NTareas; i++)  //Guardo todas las tareas en var tarea
@@ -87,6 +89,7 @@ void GuardarTareas(Tarea ** tareas, int NTareas){
         tareas++;
     }
 }
+
 
 void ListarTareas(Tarea ** tareas, Tarea ** tareas_Realizadas, int NTareas){
 
@@ -113,6 +116,7 @@ void ListarTareas(Tarea ** tareas, Tarea ** tareas_Realizadas, int NTareas){
         tareas++;
     }
 }
+
 
 void ListarTareasRyP(Tarea ** tareas, Tarea ** tareas_Realizadas, int NTareas){
     int TP = 0;
