@@ -19,6 +19,7 @@ void ListarTareasRyP(Tarea ** tareas, Tarea ** tareas_Realizadas, int NTareas);
 
 Tarea * BuscarTareaID(Tarea ** tareas, Tarea ** tareas_Realizadas, int NTareas);
 
+Tarea * BuscarTareaPalabra(Tarea ** tareas, Tarea ** tareas_Realizadas, int NTareas);
 
 int main(){
 
@@ -52,6 +53,21 @@ int main(){
         printf("ID: %d\n", tareaBuscID->TareaID);
         printf("Descripcion: %s \n", tareaBuscID->Descripcion);
         printf("Duracion: %d\n", tareaBuscID->Duracion);
+    }
+
+    Tarea * tareaBuscPalabra = (Tarea *)malloc(sizeof(Tarea));
+
+    tareaBuscPalabra = BuscarTareaPalabra(tareas, tareas_Realizadas, NTareas);
+
+    if (tareaBuscPalabra == NULL)
+    {
+        printf("\n\nLa tarea con esa palabra clave no existe \n");
+    }else
+    {
+        printf("\n\nLa tarea con la palabra '%s' es: \n\n", tareaBuscPalabra->Descripcion);
+        printf("ID: %d\n", tareaBuscPalabra->TareaID);
+        printf("Descripcion: %s\n", tareaBuscPalabra->Descripcion);
+        printf("Duracion: %d\n", tareaBuscPalabra->Duracion);
     }
 
     scanf(" %c");
@@ -181,4 +197,43 @@ Tarea * BuscarTareaID(Tarea ** tareas, Tarea ** tareas_Realizadas, int NTareas){
     }
 
     return NULL;
+}
+
+Tarea * BuscarTareaPalabra(Tarea ** tareas, Tarea ** tareas_Realizadas, int NTareas){
+    int TP = 0;
+    int tamanio;
+    
+    char * descripcion = (char *) malloc(sizeof(char) * 100);
+
+    printf("\n\nIngrese el la descripcion de la Tarea a Buscar: \n");
+    scanf("%s", descripcion);
+
+    for (int i = 1; i <= NTareas; i++)
+    {
+        if (*tareas != NULL)
+        {
+            tamanio = strlen(descripcion);
+            if (strncmp((*tareas)->Descripcion, descripcion, tamanio) == 0)
+            {
+                free(descripcion);
+                return *tareas;
+            }
+            TP++;
+        }
+        tareas++;
+    }
+    
+    for (int i = 1; i <= NTareas-TP; i++)
+    {
+        tamanio = strlen(descripcion);
+        if (strncmp((*tareas_Realizadas)->Descripcion, descripcion, tamanio) == 0)
+        {
+            free(descripcion);
+            return *tareas_Realizadas;
+        }
+        tareas_Realizadas++;
+    }
+    
+    return NULL;
+
 }
