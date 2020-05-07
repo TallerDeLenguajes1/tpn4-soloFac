@@ -146,10 +146,11 @@ void ListarTareasRyP(Tarea ** tareas, Tarea ** tareas_Realizadas, int NTareas){
     }
 }
 
+
 Tarea * BuscarTareaPalabra(Tarea ** tareas, Tarea ** tareas_Realizadas, int NTareas){
     int TP = 0;
     int tamanio;
-    
+
     char * descripcion = (char *) malloc(sizeof(char) * 100);
 
     printf("\n\nIngrese el la descripcion de la Tarea a Buscar: \n");
@@ -169,7 +170,7 @@ Tarea * BuscarTareaPalabra(Tarea ** tareas, Tarea ** tareas_Realizadas, int NTar
         }
         tareas++;
     }
-    
+
     for (int i = 1; i <= NTareas-TP; i++)
     {
         tamanio = strlen(descripcion);
@@ -180,7 +181,7 @@ Tarea * BuscarTareaPalabra(Tarea ** tareas, Tarea ** tareas_Realizadas, int NTar
         }
         tareas_Realizadas++;
     }
-    
+
     return NULL;
 
 }
